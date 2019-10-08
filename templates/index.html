@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="A really cool site!">
+    <!-- Bootstrap CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <img src="{{ url_for('static', filename='img/coding_dojo_logo.png') }}">
+        <h1 class="navbar-brand">Coding Dojo: <span class="text-warning">Ninja Gold</span></h1>
+        <form class="form-inline">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </nav>
+    <div class="jumbotron">
+        <div class="container mt-2">
+            <div class="row">
+                <div class="col justify-content-between">
+                    <div class="text-left">
+                        <h5>Your Gold | <span class="text-primary">Go for 500:</span> <span
+                                class="white border rounded border-warning px-5 py-1">{{ session['gold'] }}</span>
+                        </h5>
+
+                        <h5>Opportunities Left: <span class=""></span>{{ session['count_down'] }} </h5>
+
+                    </div>
+                    <form action="/reset" method='post'>
+                        <div class="">
+                            <form action="/{{ session['action'] }}">
+                                {{ session['button'] | safe }}
+                                <!-- JUST IN CASE RESET BUTTON - In case stuff breaks -->
+                                <!-- <button type="submit" class="btn btn-primary mt-3">{{ session['button'] }}</!-->
+                            </form>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="mt-5">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="card border border-dark">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Farm</h5>
+                                <p class="card-text">(earns 10-20 golds)</p>
+                                <form action="/process_money" method='post'>
+                                    <input type="hidden" name="property" value="farm">
+                                    <button type="submit"
+                                        class="btn btn-lg btn-warning border-dark">{{ session['find_gold']}}</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="card border border-dark">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Cave</h5>
+                                <p class="card-text">(earns 5-10 golds)</p>
+                                <form action="/process_money" method='post'>
+                                    <input type="hidden" name="property" value="cave">
+                                    <button type="submit" class="btn btn-lg btn-warning border-dark">Find Gold!</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="card border border-dark">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">House</h5>
+                                <p class="card-text">(earns 2-5 golds)</p>
+                                <form action="/process_money" method='post'>
+                                    <input type="hidden" name="property" value="house">
+                                    <button type="submit" class="btn btn-lg btn-warning border-dark">Find Gold!</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="card border border-dark">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Casino</h5>
+                                <p class="card-text">(earns/takes 0-50 golds)</p>
+                                <form action="/process_money" method='post'>
+                                    <input type="hidden" name="property" value="casino">
+                                    <button type="submit" class="btn btn-lg btn-warning border-dark">Find Gold!</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h5>Activities</h5>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="no-scroll">
+                                {% for activity in session['activities'] | reverse %}
+                                <p class="card-text border-warning activities {{ activity['color'] }}">
+                                    {{ activity['result']|safe }}</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</body>
+
+</html>
